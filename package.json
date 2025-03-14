@@ -1,0 +1,24 @@
+{
+  "name": "monitoring",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "viem": "^2.23.10"
+  },
+  "optionalDependencies": {
+    "agent-twitter-client": "github:bozoverse/agent-twitter-client",
+    "discord.js": "^14.18.0",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
