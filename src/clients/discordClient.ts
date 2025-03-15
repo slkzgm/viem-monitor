@@ -1,39 +1,40 @@
 // src/clients/discordClient.ts
 
 /**
- * Example for optional Discord client. Uses dynamic import
- * so if the user doesn't install the library, code won't crash.
+ * Example optional Discord client using discord.js (v14+).
+ * Dynamic import to avoid crashes if not installed.
  */
 
-import { Logger } from '../logger'
+import { Logger } from "../logger/logger";
 
-// This is just an example type. Replace with actual library types if needed.
-type DiscordLib = {
-    new (token: string): any;
-    // or the actual class name / function signature
-}
-
-/**
- * Creates a Discord client if possible. If not installed or not configured, returns null.
- */
 export async function initDiscordClient(token: string): Promise<any | null> {
-    try {
-        // Attempt to dynamically import your Discord library
-        // (e.g. 'discord.js' or another Discord client)
-        const discordLib: DiscordLib = (await import('discord.js')).default
-        // or named import: const { Client } = await import('discord.js')
+  if (!token) {
+    Logger.warn(
+      "Discord token is empty. Skipping Discord client initialization.",
+    );
+    return null;
+  }
 
-        if (!token) {
-            Logger.warn('Discord token is empty. Skipping Discord client initialization.')
-            return null
-        }
+  try {
+    const discordJs = await import("discord.js");
+    const { Client, IntentsBitField } = discordJs;
 
-        // Pseudocode for whatever the library is
-        const client = new discordLib(token)
-        Logger.info('Discord client initialized successfully.')
-        return client
-    } catch (error: any) {
-        Logger.warn(`Could not load Discord client. Error: ${error.message}`)
-        return null
-    }
+    const client = new Client({
+      intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMessages,
+      ],
+    });
+
+    await client.login(token);
+    client.once("ready", () => {
+      Logger.info(`[Discord] Logged in as ${client.user?.tag}.`);
+    });
+
+    Logger.info("Discord client initialized successfully.");
+    return client;
+  } catch (error: any) {
+    Logger.warn(`Could not load discord.js. Error: ${error.message}`);
+    return null;
+  }
 }

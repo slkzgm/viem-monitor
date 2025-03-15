@@ -1,7 +1,7 @@
 // src/types.ts
 
 /**
- * Types and interfaces for watchers and handlers.
+ * Shared interfaces/types for watchers and handlers.
  */
 
 export interface IEventHandler {
