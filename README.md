@@ -29,7 +29,7 @@ This repository implements a **Web3 Event Monitoring** service using [**viem**](
 ### 3.2 Cloning & Installing
 
 ```bash
-git clone https://github.com/slkzgm/viem-monitor.git 
+git clone https://github.com/slkzgm/viem-monitor.git
 cd viem-monitor
 pnpm install
 ```

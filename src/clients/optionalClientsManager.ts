@@ -25,7 +25,7 @@ import { Logger } from "../logger/logger";
 export class OptionalClientsManager {
   public discordClient: any | null = null;
   public telegramClient: any | null = null;
-  public twitterScraper: any | null = null;
+  public twitterClient: any | null = null;
 
   public async initAll(): Promise<void> {
     // 1) Discord
@@ -48,7 +48,7 @@ export class OptionalClientsManager {
 
     // 3) Twitter
     if (ENABLE_TWITTER) {
-      this.twitterScraper = await initTwitterClient(
+      this.twitterClient = await initTwitterClient(
         TWITTER_USERNAME,
         TWITTER_PASSWORD,
         TWITTER_EMAIL,
@@ -88,9 +88,9 @@ export class OptionalClientsManager {
     }
 
     // Twitter
-    if (this.twitterScraper) {
+    if (this.twitterClient) {
       try {
-        await this.twitterScraper.sendTweet(message);
+        await this.twitterClient.sendTweet(message);
         Logger.info("[Twitter] Tweet sent successfully.");
       } catch (err: any) {
         Logger.error(`[Twitter] Error sending tweet: ${err.message}`);

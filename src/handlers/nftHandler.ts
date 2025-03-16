@@ -69,10 +69,10 @@ export class NftHandler implements IEventHandler {
       }
 
       // 3) Twitter
-      if (this.optionalClients.twitterScraper) {
+      if (this.optionalClients.twitterClient) {
         try {
           // Keep tweets short if possible
-          await this.optionalClients.twitterScraper.sendTweet(
+          await this.optionalClients.twitterClient.sendTweet(
             `New NFT Transfer: Token #${tokenId} from ${from.slice(0, 6)}... to ${to.slice(0, 6)}...`,
           );
           Logger.info("[Twitter] NFT Transfer tweet sent successfully.");
