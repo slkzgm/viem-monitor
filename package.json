@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "dev": "tsx src/index.ts",
     "build": "tsc",
+    "start": "node dist/index.js",
     "format": "prettier --write ."
   },
   "devDependencies": {

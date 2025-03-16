@@ -14,6 +14,8 @@ import {
   TWITTER_EMAIL,
   DISCORD_TOKEN,
   TELEGRAM_TOKEN,
+  DISCORD_FALLBACK_CHANNEL_ID,
+  TELEGRAM_FALLBACK_CHANNEL_ID,
 } from "../config";
 import { initDiscordClient } from "./discordClient";
 import { initTelegramClient } from "./telegramClient";
@@ -59,7 +61,9 @@ export class OptionalClientsManager {
     if (this.discordClient) {
       try {
         // Example usage - user must define channel ID in code or config
-        await this.discordClient.sendMessage("#channel", message);
+        await this.discordClient.channels.cache
+          .get(DISCORD_FALLBACK_CHANNEL_ID)
+          .send(message);
         Logger.info("[Discord] Message sent successfully.");
       } catch (err: any) {
         Logger.error(`[Discord] Error sending message: ${err.message}`);
@@ -69,7 +73,10 @@ export class OptionalClientsManager {
     // Telegram
     if (this.telegramClient) {
       try {
-        await this.telegramClient.sendMessage("YOUR_CHAT_ID", message);
+        await this.telegramClient.sendMessage(
+          TELEGRAM_FALLBACK_CHANNEL_ID,
+          message,
+        );
         Logger.info("[Telegram] Message sent successfully.");
       } catch (err: any) {
         Logger.error(`[Telegram] Error sending message: ${err.message}`);

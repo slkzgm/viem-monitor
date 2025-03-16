@@ -10,6 +10,7 @@ import { WatcherManager } from "./watchers/watcherManager";
 import { TransferHandler } from "./handlers/transferHandler";
 import { IWatcherConfig } from "./types";
 import { OptionalClientsManager } from "./clients/optionalClientsManager";
+import { TransferNftHandler } from "./handlers/transferNftHandler";
 
 // Create watchers & optional clients at module scope so we can shut them down
 let watcherManager: WatcherManager;
@@ -31,6 +32,32 @@ async function main() {
   // 2) Initialize optional clients
   optionalClients = new OptionalClientsManager();
   await optionalClients.initAll();
+
+  const nftTransferAbi = [
+    {
+      type: "event",
+      name: "Transfer",
+      inputs: [
+        { type: "address", name: "from", indexed: true },
+        { type: "address", name: "to", indexed: true },
+        { type: "uint256", name: "tokenId", indexed: true },
+      ],
+    },
+  ];
+
+  const nftTransferWatcherConfig: IWatcherConfig = {
+    name: "NFT_Transfer_Watcher",
+    address: "0x7c47ea32FD27d1a74Fc6e9F31Ce8162e6Ce070eB",
+    abi: nftTransferAbi,
+    eventName: "Transfer",
+  };
+
+  // 4) Add the new watcher with the TransferNftHandler
+  watcherManager.addWatcher(
+    nftTransferWatcherConfig,
+    // We pass "optionalClients" so we can post Discord/Telegram/Twitter
+    new TransferNftHandler(optionalClients),
+  );
 
   // 3) Test broadcast
   await optionalClients.broadcastMessage("Hello from the watchers!");
