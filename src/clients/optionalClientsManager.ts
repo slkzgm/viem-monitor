@@ -20,7 +20,7 @@ import {
 import { initDiscordClient } from "./discordClient";
 import { initTelegramClient } from "./telegramClient";
 import { initTwitterClient } from "./twitterClient";
-import { Logger } from "../logger/logger";
+import { logger } from "../logger/logger";
 
 export class OptionalClientsManager {
   public discordClient: any | null = null;
@@ -32,18 +32,14 @@ export class OptionalClientsManager {
     if (ENABLE_DISCORD && DISCORD_DEFAULT_CHANNEL_ID) {
       this.discordClient = await initDiscordClient(DISCORD_TOKEN);
     } else {
-      Logger.info(
-        "Discord client is disabled in config or default channel not set.",
-      );
+      logger.info("Discord client is disabled or no default channel set.");
     }
 
     // 2) Telegram
     if (ENABLE_TELEGRAM && TELEGRAM_DEFAULT_CHANNEL_ID) {
       this.telegramClient = await initTelegramClient(TELEGRAM_TOKEN);
     } else {
-      Logger.info(
-        "Telegram client is disabled in config or default channel not set.",
-      );
+      logger.info("Telegram client is disabled or no default channel set.");
     }
 
     // 3) Twitter
@@ -54,23 +50,22 @@ export class OptionalClientsManager {
         TWITTER_EMAIL,
       );
     } else {
-      Logger.info("Twitter client is disabled in config.");
+      logger.info("Twitter client is disabled in config.");
     }
 
-    Logger.info("Optional clients initialization completed.");
+    logger.info("Optional clients initialization completed.");
   }
 
   public async broadcastMessage(message: string): Promise<void> {
     // Discord
     if (this.discordClient) {
       try {
-        // Example usage - user must define channel ID in code or config
         await this.discordClient.channels.cache
           .get(DISCORD_DEFAULT_CHANNEL_ID)
           .send(message);
-        Logger.info("[Discord] Message sent successfully.");
+        logger.info("[Discord] Message sent successfully.");
       } catch (err: any) {
-        Logger.error(`[Discord] Error sending message: ${err.message}`);
+        logger.error(`[Discord] Error sending message: ${err.message}`);
       }
     }
 
@@ -81,9 +76,9 @@ export class OptionalClientsManager {
           TELEGRAM_DEFAULT_CHANNEL_ID,
           message,
         );
-        Logger.info("[Telegram] Message sent successfully.");
+        logger.info("[Telegram] Message sent successfully.");
       } catch (err: any) {
-        Logger.error(`[Telegram] Error sending message: ${err.message}`);
+        logger.error(`[Telegram] Error sending message: ${err.message}`);
       }
     }
 
@@ -91,9 +86,9 @@ export class OptionalClientsManager {
     if (this.twitterClient) {
       try {
         await this.twitterClient.sendTweet(message);
-        Logger.info("[Twitter] Tweet sent successfully.");
+        logger.info("[Twitter] Tweet sent successfully.");
       } catch (err: any) {
-        Logger.error(`[Twitter] Error sending tweet: ${err.message}`);
+        logger.error(`[Twitter] Error sending tweet: ${err.message}`);
       }
     }
   }

@@ -4,7 +4,6 @@
  * Defines watchers for NFT transfers, etc.
  */
 
-import { IWatcherConfig } from "../types";
 import { NftHandler } from "../handlers/nftHandler";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 

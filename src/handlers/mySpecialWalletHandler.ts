@@ -6,28 +6,30 @@
  */
 
 import { IEventHandler } from "../types";
-import { Logger } from "../logger/logger";
+import { createPrefixedLogger } from "../logger/logger";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 
 export class MySpecialWalletHandler implements IEventHandler {
+  private log = createPrefixedLogger("MySpecialWalletHandler");
+
   constructor(private clients: OptionalClientsManager) {}
 
   public async handleEvent(txArray: any[]): Promise<void> {
     for (const tx of txArray) {
-      Logger.info(`[MySpecialWalletHandler] Handling tx hash: ${tx.hash}`);
+      this.log.info(`Handling tx hash: ${tx.hash}`);
 
       // Example of a custom message
-      const message = `Wallet 0x1B2C84dd... initiated tx with hash: ${tx.hash}\nValue: ${tx.value}`;
+      const message = `Wallet 0x1B2C84dd... initiated tx: ${tx.hash}`;
 
       // Maybe we only post to Discord & Telegram, skip Twitter:
       if (this.clients.discordClient) {
         try {
-          // Example usage, referencing your config for default channel
           await this.clients.discordClient.channels.cache
             .get(process.env.DISCORD_DEFAULT_CHANNEL_ID)
             .send(`**MySpecialWallet TX:**\n${message}`);
+          this.log.info("Posted TX info to Discord.");
         } catch (err: any) {
-          Logger.error(`[Discord] Error: ${err.message}`);
+          this.log.error(`Discord error: ${err.message}`);
         }
       }
 
@@ -37,11 +39,12 @@ export class MySpecialWalletHandler implements IEventHandler {
             process.env.TELEGRAM_DEFAULT_CHANNEL_ID,
             `MySpecialWallet TX:\n${message}`,
           );
+          this.log.info("Posted TX info to Telegram.");
         } catch (err: any) {
-          Logger.error(`[Telegram] Error: ${err.message}`);
+          this.log.error(`Telegram error: ${err.message}`);
         }
       }
-      // etc. (or do any other logic you want)
+      // etc...
     }
   }
 }

@@ -10,6 +10,12 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      pino:
+        specifier: ^9.6.0
+        version: 9.6.0
+      pino-pretty:
+        specifier: ^13.0.0
+        version: 13.0.0
       viem:
         specifier: ^2.23.10
         version: 2.23.10(typescript@5.8.2)
@@ -292,6 +298,13 @@ packages:
         integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==,
       }
 
+  atomic-sleep@1.0.0:
+    resolution:
+      {
+        integrity: sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==,
+      }
+    engines: { node: ">=8.0.0" }
+
   available-typed-arrays@1.0.7:
     resolution:
       {
@@ -356,6 +369,12 @@ packages:
         integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==,
       }
 
+  colorette@2.0.20:
+    resolution:
+      {
+        integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==,
+      }
+
   combined-stream@1.0.8:
     resolution:
       {
@@ -402,6 +421,12 @@ packages:
         integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==,
       }
     engines: { node: ">= 0.4" }
+
+  dateformat@4.6.3:
+    resolution:
+      {
+        integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==,
+      }
 
   debug@3.2.7:
     resolution:
@@ -548,6 +573,12 @@ packages:
       }
     engines: { "0": node >=0.6.0 }
 
+  fast-copy@3.0.2:
+    resolution:
+      {
+        integrity: sha512-dl0O9Vhju8IrcLndv2eU4ldt1ftXMqqfgN4H1cpmGV7P6jeB9FwpN9a2c8DPGE1Ys88rNUJVYDHq73CGAGOPfQ==,
+      }
+
   fast-deep-equal@3.1.3:
     resolution:
       {
@@ -558,6 +589,19 @@ packages:
     resolution:
       {
         integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==,
+      }
+
+  fast-redact@3.5.0:
+    resolution:
+      {
+        integrity: sha512-dwsoQlS7h9hMeYUq1W++23NDcBLV4KqONnITDV9DjfS3q1SgDGVrBdvvTLUotWtPSD7asWDV9/CmsZPy8Hf70A==,
+      }
+    engines: { node: ">=6" }
+
+  fast-safe-stringify@2.1.1:
+    resolution:
+      {
+        integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==,
       }
 
   file-type@3.9.0:
@@ -721,6 +765,12 @@ packages:
     resolution:
       {
         integrity: sha512-5e57etwBpNcDc0b6KCVWEh/Ro063OxPvzVimUdM0/tsYM/T7Hfy3kknIGj78SFTOhNd8AZY41U8mOHoO4LzmIQ==,
+      }
+
+  help-me@5.0.0:
+    resolution:
+      {
+        integrity: sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg==,
       }
 
   http-signature@1.2.0:
@@ -922,6 +972,13 @@ packages:
         integrity: sha512-Yljz7ffyPbrLpLngrMtZ7NduUgVvi6wG9RJ9IUcyCd59YQ911PBJphODUcbOVbqYfxe1wuYf/LJ8PauMRwsM/g==,
       }
 
+  joycon@3.1.1:
+    resolution:
+      {
+        integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==,
+      }
+    engines: { node: ">=10" }
+
   jsbn@0.1.1:
     resolution:
       {
@@ -1020,6 +1077,12 @@ packages:
     engines: { node: ">=4" }
     hasBin: true
 
+  minimist@1.2.8:
+    resolution:
+      {
+        integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==,
+      }
+
   ms@2.1.3:
     resolution:
       {
@@ -1060,6 +1123,13 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  on-exit-leak-free@2.1.2:
+    resolution:
+      {
+        integrity: sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA==,
+      }
+    engines: { node: ">=14.0.0" }
+
   once@1.4.0:
     resolution:
       {
@@ -1096,6 +1166,32 @@ packages:
         integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==,
       }
 
+  pino-abstract-transport@2.0.0:
+    resolution:
+      {
+        integrity: sha512-F63x5tizV6WCh4R6RHyi2Ml+M70DNRXt/+HANowMflpgGFMAym/VKm6G7ZOQRjqN7XbGxK1Lg9t6ZrtzOaivMw==,
+      }
+
+  pino-pretty@13.0.0:
+    resolution:
+      {
+        integrity: sha512-cQBBIVG3YajgoUjo1FdKVRX6t9XPxwB9lcNJVD5GCnNM4Y6T12YYx8c6zEejxQsU0wrg9TwmDulcE9LR7qcJqA==,
+      }
+    hasBin: true
+
+  pino-std-serializers@7.0.0:
+    resolution:
+      {
+        integrity: sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==,
+      }
+
+  pino@9.6.0:
+    resolution:
+      {
+        integrity: sha512-i85pKRCt4qMjZ1+L7sy2Ag4t1atFcdbEt76+7iRJn1g2BvsnRMGu9p8pivl9fs63M2kF/A0OacFZhTub+m/qMg==,
+      }
+    hasBin: true
+
   possible-typed-array-names@1.1.0:
     resolution:
       {
@@ -1117,6 +1213,12 @@ packages:
         integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==,
       }
 
+  process-warning@4.0.1:
+    resolution:
+      {
+        integrity: sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==,
+      }
+
   psl@1.15.0:
     resolution:
       {
@@ -1127,6 +1229,12 @@ packages:
     resolution:
       {
         integrity: sha512-ruPMNRkN3MHP1cWJc9OWr+T/xDP0jhXYCLfJcBuX54hhfIBnaQmAUMfDcG4DM5UMWByBbJY69QSphm3jtDKIkA==,
+      }
+
+  pump@3.0.2:
+    resolution:
+      {
+        integrity: sha512-tUPXtzlGM8FE3P0ZL6DVs/3P58k9nk8/jZeQCurTJylQA8qFYzHFfhBJkuqyE0FifOsQ0uKWekiZ5g8wtr28cw==,
       }
 
   punycode@2.3.1:
@@ -1156,11 +1264,24 @@ packages:
         integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==,
       }
 
+  quick-format-unescaped@4.0.4:
+    resolution:
+      {
+        integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==,
+      }
+
   readable-stream@2.3.8:
     resolution:
       {
         integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==,
       }
+
+  real-require@0.2.0:
+    resolution:
+      {
+        integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==,
+      }
+    engines: { node: ">= 12.13.0" }
 
   reflect.getprototypeof@1.0.10:
     resolution:
@@ -1232,10 +1353,23 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  safe-stable-stringify@2.5.0:
+    resolution:
+      {
+        integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==,
+      }
+    engines: { node: ">=10" }
+
   safer-buffer@2.1.2:
     resolution:
       {
         integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==,
+      }
+
+  secure-json-parse@2.7.0:
+    resolution:
+      {
+        integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==,
       }
 
   set-cookie-parser@2.7.1:
@@ -1293,6 +1427,19 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  sonic-boom@4.2.0:
+    resolution:
+      {
+        integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==,
+      }
+
+  split2@4.2.0:
+    resolution:
+      {
+        integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==,
+      }
+    engines: { node: ">= 10.x" }
+
   sshpk@1.18.0:
     resolution:
       {
@@ -1333,6 +1480,19 @@ packages:
     resolution:
       {
         integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==,
+      }
+
+  strip-json-comments@3.1.1:
+    resolution:
+      {
+        integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==,
+      }
+    engines: { node: ">=8" }
+
+  thread-stream@3.1.0:
+    resolution:
+      {
+        integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==,
       }
 
   tldts-core@6.1.84:
@@ -1799,6 +1959,8 @@ snapshots:
 
   asynckit@0.4.0: {}
 
+  atomic-sleep@1.0.0: {}
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
@@ -1846,6 +2008,8 @@ snapshots:
   caseless@0.12.0:
     optional: true
 
+  colorette@2.0.20: {}
+
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
@@ -1881,6 +2045,8 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
     optional: true
+
+  dateformat@4.6.3: {}
 
   debug@3.2.7:
     dependencies:
@@ -1942,7 +2108,6 @@ snapshots:
   end-of-stream@1.4.4:
     dependencies:
       once: 1.4.0
-    optional: true
 
   es-abstract@1.23.9:
     dependencies:
@@ -2037,11 +2202,17 @@ snapshots:
   extsprintf@1.3.0:
     optional: true
 
+  fast-copy@3.0.2: {}
+
   fast-deep-equal@3.1.3:
     optional: true
 
   fast-json-stable-stringify@2.1.0:
     optional: true
+
+  fast-redact@3.5.0: {}
+
+  fast-safe-stringify@2.1.1: {}
 
   file-type@3.9.0:
     optional: true
@@ -2164,6 +2335,8 @@ snapshots:
 
   headers-polyfill@3.3.0:
     optional: true
+
+  help-me@5.0.0: {}
 
   http-signature@1.2.0:
     dependencies:
@@ -2318,6 +2491,8 @@ snapshots:
   isstream@0.1.2:
     optional: true
 
+  joycon@3.1.1: {}
+
   jsbn@0.1.1:
     optional: true
 
@@ -2378,6 +2553,8 @@ snapshots:
   mime@1.6.0:
     optional: true
 
+  minimist@1.2.8: {}
+
   ms@2.1.3:
     optional: true
 
@@ -2416,10 +2593,11 @@ snapshots:
       object-keys: 1.1.1
     optional: true
 
+  on-exit-leak-free@2.1.2: {}
+
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
-    optional: true
 
   otpauth@9.3.6:
     dependencies:
@@ -2450,6 +2628,42 @@ snapshots:
   performance-now@2.1.0:
     optional: true
 
+  pino-abstract-transport@2.0.0:
+    dependencies:
+      split2: 4.2.0
+
+  pino-pretty@13.0.0:
+    dependencies:
+      colorette: 2.0.20
+      dateformat: 4.6.3
+      fast-copy: 3.0.2
+      fast-safe-stringify: 2.1.1
+      help-me: 5.0.0
+      joycon: 3.1.1
+      minimist: 1.2.8
+      on-exit-leak-free: 2.1.2
+      pino-abstract-transport: 2.0.0
+      pump: 3.0.2
+      secure-json-parse: 2.7.0
+      sonic-boom: 4.2.0
+      strip-json-comments: 3.1.1
+
+  pino-std-serializers@7.0.0: {}
+
+  pino@9.6.0:
+    dependencies:
+      atomic-sleep: 1.0.0
+      fast-redact: 3.5.0
+      on-exit-leak-free: 2.1.2
+      pino-abstract-transport: 2.0.0
+      pino-std-serializers: 7.0.0
+      process-warning: 4.0.1
+      quick-format-unescaped: 4.0.4
+      real-require: 0.2.0
+      safe-stable-stringify: 2.5.0
+      sonic-boom: 4.2.0
+      thread-stream: 3.1.0
+
   possible-typed-array-names@1.1.0:
     optional: true
 
@@ -2457,6 +2671,8 @@ snapshots:
 
   process-nextick-args@2.0.1:
     optional: true
+
+  process-warning@4.0.1: {}
 
   psl@1.15.0:
     dependencies:
@@ -2468,6 +2684,11 @@ snapshots:
       end-of-stream: 1.4.4
       once: 1.4.0
     optional: true
+
+  pump@3.0.2:
+    dependencies:
+      end-of-stream: 1.4.4
+      once: 1.4.0
 
   punycode@2.3.1:
     optional: true
@@ -2483,6 +2704,8 @@ snapshots:
   querystringify@2.2.0:
     optional: true
 
+  quick-format-unescaped@4.0.4: {}
+
   readable-stream@2.3.8:
     dependencies:
       core-util-is: 1.0.3
@@ -2493,6 +2716,8 @@ snapshots:
       string_decoder: 1.1.1
       util-deprecate: 1.0.2
     optional: true
+
+  real-require@0.2.0: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:
@@ -2576,8 +2801,12 @@ snapshots:
       is-regex: 1.2.1
     optional: true
 
+  safe-stable-stringify@2.5.0: {}
+
   safer-buffer@2.1.2:
     optional: true
+
+  secure-json-parse@2.7.0: {}
 
   set-cookie-parser@2.7.1:
     optional: true
@@ -2639,6 +2868,12 @@ snapshots:
       side-channel-weakmap: 1.0.2
     optional: true
 
+  sonic-boom@4.2.0:
+    dependencies:
+      atomic-sleep: 1.0.0
+
+  split2@4.2.0: {}
+
   sshpk@1.18.0:
     dependencies:
       asn1: 0.2.6
@@ -2685,6 +2920,12 @@ snapshots:
     dependencies:
       safe-buffer: 5.1.2
     optional: true
+
+  strip-json-comments@3.1.1: {}
+
+  thread-stream@3.1.0:
+    dependencies:
+      real-require: 0.2.0
 
   tldts-core@6.1.84:
     optional: true
@@ -2880,7 +3121,6 @@ snapshots:
       has-tostringtag: 1.0.2
     optional: true
 
-  wrappy@1.0.2:
-    optional: true
+  wrappy@1.0.2: {}
 
   ws@8.18.1: {}

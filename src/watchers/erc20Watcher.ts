@@ -4,7 +4,6 @@
  * Defines watchers for ERC20 events (e.g., Transfer).
  */
 
-import { IWatcherConfig } from "../types";
 import { Erc20Handler } from "../handlers/erc20Handler";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 

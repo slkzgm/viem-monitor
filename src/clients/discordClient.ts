@@ -5,11 +5,11 @@
  * Dynamic import to avoid crashes if not installed.
  */
 
-import { Logger } from "../logger/logger";
+import { logger } from "../logger/logger";
 
 export async function initDiscordClient(token: string): Promise<any | null> {
   if (!token) {
-    Logger.warn(
+    logger.warn(
       "Discord token is empty. Skipping Discord client initialization.",
     );
     return null;
@@ -28,13 +28,13 @@ export async function initDiscordClient(token: string): Promise<any | null> {
 
     await client.login(token);
     client.once("ready", () => {
-      Logger.info(`[Discord] Logged in as ${client.user?.tag}.`);
+      logger.info(`[Discord] Logged in as ${client.user?.tag}.`);
     });
 
-    Logger.info("Discord client initialized successfully.");
+    logger.info("Discord client initialized successfully.");
     return client;
   } catch (error: any) {
-    Logger.warn(`Could not load discord.js. Error: ${error.message}`);
+    logger.warn(`Could not load discord.js. Error: ${error.message}`);
     return null;
   }
 }

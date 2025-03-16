@@ -2,10 +2,10 @@
 
 /**
  * Example optional Twitter client that uses your custom library
- * "agent-twitter-client" from https://github.com/bozoverse/agent-twitter-client
+ * "agent-twitter-client"
  */
 
-import { Logger } from "../logger/logger";
+import { logger } from "../logger/logger";
 
 export async function initTwitterClient(
   username: string,
@@ -16,19 +16,17 @@ export async function initTwitterClient(
     const { Scraper } = await import("agent-twitter-client");
 
     if (!username || !password) {
-      Logger.warn(
-        "Twitter credentials incomplete. Skipping Twitter client initialization.",
-      );
+      logger.warn("Twitter credentials incomplete. Skipping initialization.");
       return null;
     }
 
     const scraper = new Scraper();
     await scraper.login(username, password, email);
 
-    Logger.info("Twitter client initialized and logged in successfully.");
+    logger.info("Twitter client initialized and logged in successfully.");
     return scraper;
   } catch (error: any) {
-    Logger.warn(`Could not load Twitter client. Error: ${error.message}`);
+    logger.warn(`Could not load Twitter client. Error: ${error.message}`);
     return null;
   }
 }

@@ -2,57 +2,54 @@
 
 /**
  * A single watcher for all wallet activity.
- * We store a list of wallets, each with its own direction & handler creation.
- * "watchBlocks" is used to scan each new block's transactions for relevant matches.
+ * Each wallet now has a "label" in addition to address/direction.
  */
 
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 import { IWatcherDefinition, IWatcherConfig } from "../types";
-import { MasterWalletActivityHandler } from "../handlers/masterWalletActivityHandler";
+import {
+  MasterWalletActivityHandler,
+  SingleWalletDefinition,
+} from "../handlers/masterWalletActivityHandler";
 import { MySpecialWalletHandler } from "../handlers/mySpecialWalletHandler";
 import { AnotherWalletHandler } from "../handlers/anotherWalletHandler";
 
 /**
- * The array of monitored wallets, each specifying:
- *  - address
- *  - direction: "from"|"to"|"both" (use "as const" for TS literal type)
- *  - createHandler: returns a custom IEventHandler
+ * Now each wallet has:
+ *   label: a descriptive name for logs
+ *   address: the EOA to monitor
+ *   direction: "from", "to", or "both"
+ *   createHandler: returns a custom sub-handler
  */
-const MONITORED_WALLETS = [
+const MONITORED_WALLETS: SingleWalletDefinition[] = [
   {
+    label: "Dev Main Wallet",
     address: "0x1B2C84dd7957b1e207Cd7b01Ded77984eC16fDEf",
     direction: "from" as const,
     createHandler: (clients: OptionalClientsManager) =>
       new MySpecialWalletHandler(clients),
   },
   {
-    address: "0x700d7b774f5af65d26e5b9ae969ca9611ff80f6d",
+    label: "Shared Guild Vault",
+    address: "0xABCDEFabcdef0000111122223333444455556666",
     direction: "both" as const,
     createHandler: (clients: OptionalClientsManager) =>
       new AnotherWalletHandler(clients),
   },
-  // Add as many wallets as you need here...
 ];
 
 /**
- * We'll define a single watcher config for "AllWallets_Activity_Watcher".
- * We do NOT specify address/abi because we rely on watchBlocks in watcherManager.
+ * A single watcher config with name="AllWallets_Activity_Watcher".
+ * We'll do watchBlocks in watcherManager to handle transactions chain-wide.
  */
 const watchBlockConfig: IWatcherConfig = {
   name: "AllWallets_Activity_Watcher",
 };
 
-/**
- * createMasterHandler => returns a MasterWalletActivityHandler
- * that will route each transaction to the correct wallet's custom handler.
- */
 function createMasterHandler(clients: OptionalClientsManager) {
   return new MasterWalletActivityHandler(clients, MONITORED_WALLETS);
 }
 
-/**
- * Exported WATCHERS array so watchers/index.ts automatically includes it.
- */
 export const WATCHERS: IWatcherDefinition[] = [
   {
     config: watchBlockConfig,

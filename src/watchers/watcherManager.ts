@@ -2,14 +2,13 @@
 
 /**
  * Manages all event watchers (contract logs, generic logs, wallet transaction activity).
- * Any watcher that encounters an error triggers a one-time exponential backoff,
- * then re-creates the PublicClient & re-subscribes all watchers.
+ * If a watcher hits an error, we do exponential backoff, reset the client, re-subscribe.
  */
 
 import { parseAbiItem } from "viem";
-import { Logger } from "../logger/logger";
 import { IEventHandler, IWatcherConfig } from "../types";
 import { getPublicClient, resetPublicClient } from "./client";
+import { logger } from "../logger/logger";
 
 interface StoredWatcher {
   config: IWatcherConfig;
@@ -25,7 +24,7 @@ export class WatcherManager {
   private isReconnecting = false;
 
   public addWatcher(config: IWatcherConfig, handler: IEventHandler): void {
-    Logger.info(`Initializing watcher "${config.name}"...`);
+    logger.info(`Initializing watcher "${config.name}"...`);
     const unwatchFn = this.createViemWatcher(config, handler);
     this.watchers.set(config.name, { config, handler, unwatchFn });
   }
@@ -33,10 +32,10 @@ export class WatcherManager {
   public removeWatcher(name: string): void {
     const stored = this.watchers.get(name);
     if (!stored) {
-      Logger.warn(`Watcher "${name}" not found.`);
+      logger.warn(`Watcher "${name}" not found.`);
       return;
     }
-    Logger.info(`Removing watcher "${name}".`);
+    logger.info(`Removing watcher "${name}".`);
     stored.unwatchFn();
     this.watchers.delete(name);
   }
@@ -47,10 +46,6 @@ export class WatcherManager {
     }
   }
 
-  /**
-   * Creates a viem watcher. If it experiences an error,
-   * we call handleWatcherError(...) to unify reconnection logic.
-   */
   private createViemWatcher(config: IWatcherConfig, handler: IEventHandler) {
     const publicClient = getPublicClient();
     const { name, address, abi, eventName, args, fromBlock } = config;
@@ -64,7 +59,7 @@ export class WatcherManager {
         args,
         fromBlock,
         onLogs: async (logs) => {
-          Logger.info(`[${name}] Received ${logs.length} log(s).`);
+          logger.info(`[${name}] Received ${logs.length} log(s).`);
           await handler.handleEvent(logs);
         },
         onError: (err) => this.handleWatcherError(err, name),
@@ -81,6 +76,9 @@ export class WatcherManager {
             (tx) => typeof tx !== "string",
           );
           if (fullTxs.length > 0) {
+            logger.info(
+              `[${name}] Block #${block.number} => found ${fullTxs.length} transaction(s).`,
+            );
             await handler.handleEvent(fullTxs);
           }
         },
@@ -98,7 +96,7 @@ export class WatcherManager {
       args,
       fromBlock,
       onLogs: async (logs) => {
-        Logger.info(`[${name}] Received ${logs.length} log(s).`);
+        logger.info(`[${name}] Received ${logs.length} log(s).`);
         await handler.handleEvent(logs);
       },
       onError: (err) => this.handleWatcherError(err, name),
@@ -110,7 +108,7 @@ export class WatcherManager {
    * We do an exponential backoff once, then re-initialize the client & watchers.
    */
   private handleWatcherError(error: unknown, watcherName: string) {
-    Logger.error(`[${watcherName}] Watcher error: ${String(error)}`);
+    logger.error(`[${watcherName}] Watcher error: ${String(error)}`);
     if (this.isReconnecting) {
       return;
     }
@@ -118,10 +116,6 @@ export class WatcherManager {
     this.scheduleReconnection();
   }
 
-  /**
-   * Perform exponential backoff up to a max attempt.
-   * After delay, call handleReconnection().
-   */
   private scheduleReconnection() {
     this.reconnectAttempts++;
     const MAX_ATTEMPTS = 10;
@@ -129,7 +123,7 @@ export class WatcherManager {
     const delay = Math.min(2 ** this.reconnectAttempts * baseDelayMs, 30000);
 
     if (this.reconnectAttempts > MAX_ATTEMPTS) {
-      Logger.error(
+      logger.error(
         "Reached maximum reconnection attempts. Will not reconnect further.",
       );
       return;
@@ -140,17 +134,13 @@ export class WatcherManager {
     }, delay);
   }
 
-  /**
-   * Re-create the publicClient and re-subscribe watchers with new watchers.
-   */
   private handleReconnection(): void {
-    Logger.info("Re-initializing viem client & watchers after backoff...");
+    logger.info("Re-initializing viem client & watchers after backoff...");
 
     resetPublicClient();
     this.isReconnecting = false;
     this.reconnectAttempts = 0;
 
-    // Re-subscribe watchers
     for (const [name, stored] of this.watchers) {
       stored.unwatchFn();
       const newUnwatchFn = this.createViemWatcher(
@@ -158,7 +148,7 @@ export class WatcherManager {
         stored.handler,
       );
       this.watchers.set(name, { ...stored, unwatchFn: newUnwatchFn });
-      Logger.info(`Watcher "${name}" re-subscribed successfully.`);
+      logger.info(`Watcher "${name}" re-subscribed successfully.`);
     }
   }
 }
