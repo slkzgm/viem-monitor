@@ -7,90 +7,51 @@
 
 import { Logger } from "./logger/logger";
 import { WatcherManager } from "./watchers/watcherManager";
-import { TransferHandler } from "./handlers/transferHandler";
-import { IWatcherConfig } from "./types";
 import { OptionalClientsManager } from "./clients/optionalClientsManager";
-import { TransferNftHandler } from "./handlers/transferNftHandler";
+import { ALL_WATCHERS } from "./watchers";
 
-// Create watchers & optional clients at module scope so we can shut them down
 let watcherManager: WatcherManager;
 let optionalClients: OptionalClientsManager;
 
 async function main() {
   Logger.info("Starting application...");
 
-  // 1) Initialize watchers
   watcherManager = new WatcherManager();
-
-  const transferWatcherConfig: IWatcherConfig = {
-    name: "ERC20_Transfer_Watcher",
-    address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    // ...
-  };
-  watcherManager.addWatcher(transferWatcherConfig, new TransferHandler());
-
-  // 2) Initialize optional clients
   optionalClients = new OptionalClientsManager();
   await optionalClients.initAll();
 
-  const nftTransferAbi = [
-    {
-      type: "event",
-      name: "Transfer",
-      inputs: [
-        { type: "address", name: "from", indexed: true },
-        { type: "address", name: "to", indexed: true },
-        { type: "uint256", name: "tokenId", indexed: true },
-      ],
-    },
-  ];
+  // For each definition in ALL_WATCHERS, create the handler and add the watcher
+  for (const definition of ALL_WATCHERS) {
+    const handlerInstance = definition.createHandler(optionalClients);
+    watcherManager.addWatcher(definition.config, handlerInstance);
+  }
 
-  const nftTransferWatcherConfig: IWatcherConfig = {
-    name: "NFT_Transfer_Watcher",
-    address: "0x7c47ea32FD27d1a74Fc6e9F31Ce8162e6Ce070eB",
-    abi: nftTransferAbi,
-    eventName: "Transfer",
-  };
-
-  // 4) Add the new watcher with the TransferNftHandler
-  watcherManager.addWatcher(
-    nftTransferWatcherConfig,
-    // We pass "optionalClients" so we can post Discord/Telegram/Twitter
-    new TransferNftHandler(optionalClients),
-  );
-
-  // 3) Test broadcast
-  await optionalClients.broadcastMessage("Hello from the watchers!");
+  Logger.info("All watchers registered. Testing broadcast...");
+  await optionalClients.broadcastMessage("Hello from watchers!");
 
   Logger.info("App initialization complete.");
 }
 
 /**
- * Graceful shutdown:
- * Called when we receive SIGINT / SIGTERM or process.exit is triggered with code.
+ * Graceful shutdown logic (same as your current code).
  */
 async function shutdownHandler(signal: string) {
   Logger.warn(`Received ${signal}. Starting graceful shutdown...`);
 
   try {
-    // 1) Remove watchers
     if (watcherManager) {
       watcherManager.removeAllWatchers();
       Logger.info("All watchers removed successfully.");
     }
 
-    // 2) Optionally close or destroy external clients if needed
     if (optionalClients) {
-      // Example: if your Discord client has a "destroy" or "logout"
       if (optionalClients.discordClient?.destroy) {
         optionalClients.discordClient.destroy();
         Logger.info("Discord client destroyed.");
       }
-      // Telegram client might need a stopPolling or something similar
-      // Twitter client might need an explicit close
+      // Additional teardown for Telegram/Twitter if needed
     }
 
-    // 3) Wait a bit if needed for in-flight operations
     Logger.info("Shutdown complete. Exiting process now.");
     process.exit(0);
   } catch (error: any) {
@@ -103,7 +64,6 @@ async function shutdownHandler(signal: string) {
 process.on("SIGINT", () => shutdownHandler("SIGINT"));
 process.on("SIGTERM", () => shutdownHandler("SIGTERM"));
 
-// Start the app
 main().catch((error) => {
   Logger.error(`Fatal error in main: ${error.message}`);
   process.exit(1);

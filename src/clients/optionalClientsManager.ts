@@ -14,8 +14,8 @@ import {
   TWITTER_EMAIL,
   DISCORD_TOKEN,
   TELEGRAM_TOKEN,
-  DISCORD_FALLBACK_CHANNEL_ID,
-  TELEGRAM_FALLBACK_CHANNEL_ID,
+  DISCORD_DEFAULT_CHANNEL_ID,
+  TELEGRAM_DEFAULT_CHANNEL_ID,
 } from "../config";
 import { initDiscordClient } from "./discordClient";
 import { initTelegramClient } from "./telegramClient";
@@ -29,17 +29,21 @@ export class OptionalClientsManager {
 
   public async initAll(): Promise<void> {
     // 1) Discord
-    if (ENABLE_DISCORD) {
+    if (ENABLE_DISCORD && DISCORD_DEFAULT_CHANNEL_ID) {
       this.discordClient = await initDiscordClient(DISCORD_TOKEN);
     } else {
-      Logger.info("Discord client is disabled in config.");
+      Logger.info(
+        "Discord client is disabled in config or default channel not set.",
+      );
     }
 
     // 2) Telegram
-    if (ENABLE_TELEGRAM) {
+    if (ENABLE_TELEGRAM && TELEGRAM_DEFAULT_CHANNEL_ID) {
       this.telegramClient = await initTelegramClient(TELEGRAM_TOKEN);
     } else {
-      Logger.info("Telegram client is disabled in config.");
+      Logger.info(
+        "Telegram client is disabled in config or default channel not set.",
+      );
     }
 
     // 3) Twitter
@@ -62,7 +66,7 @@ export class OptionalClientsManager {
       try {
         // Example usage - user must define channel ID in code or config
         await this.discordClient.channels.cache
-          .get(DISCORD_FALLBACK_CHANNEL_ID)
+          .get(DISCORD_DEFAULT_CHANNEL_ID)
           .send(message);
         Logger.info("[Discord] Message sent successfully.");
       } catch (err: any) {
@@ -74,7 +78,7 @@ export class OptionalClientsManager {
     if (this.telegramClient) {
       try {
         await this.telegramClient.sendMessage(
-          TELEGRAM_FALLBACK_CHANNEL_ID,
+          TELEGRAM_DEFAULT_CHANNEL_ID,
           message,
         );
         Logger.info("[Telegram] Message sent successfully.");

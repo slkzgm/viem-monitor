@@ -1,4 +1,4 @@
-// src/handlers/transferNftHandler.ts
+// src/handlers/nftHandler.ts
 
 /**
  * This handler listens for Transfer(address from, address to, uint256 tokenId)
@@ -14,11 +14,11 @@ import { IEventHandler } from "../types";
 import { Logger } from "../logger/logger";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 import {
-  DISCORD_FALLBACK_CHANNEL_ID,
-  TELEGRAM_FALLBACK_CHANNEL_ID,
+  DISCORD_DEFAULT_CHANNEL_ID,
+  TELEGRAM_DEFAULT_CHANNEL_ID,
 } from "../config";
 
-export class TransferNftHandler implements IEventHandler {
+export class NftHandler implements IEventHandler {
   constructor(private optionalClients: OptionalClientsManager) {}
 
   public async handleEvent(logs: any[]): Promise<void> {
@@ -43,7 +43,7 @@ export class TransferNftHandler implements IEventHandler {
       if (this.optionalClients.discordClient) {
         try {
           await this.optionalClients.discordClient.channels.cache
-            .get(DISCORD_FALLBACK_CHANNEL_ID)
+            .get(DISCORD_DEFAULT_CHANNEL_ID)
             .send(message);
           Logger.info("[Discord] NFT Transfer message sent successfully.");
         } catch (err: any) {
@@ -57,7 +57,7 @@ export class TransferNftHandler implements IEventHandler {
       if (this.optionalClients.telegramClient) {
         try {
           await this.optionalClients.telegramClient.sendMessage(
-            TELEGRAM_FALLBACK_CHANNEL_ID,
+            TELEGRAM_DEFAULT_CHANNEL_ID,
             message,
           );
           Logger.info("[Telegram] NFT Transfer message sent successfully.");

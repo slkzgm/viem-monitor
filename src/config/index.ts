@@ -15,14 +15,14 @@ export const WEBSOCKET_RPC_URL =
 // DISCORD
 export const ENABLE_DISCORD = process.env.ENABLE_DISCORD === "true";
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN || "";
-export const DISCORD_FALLBACK_CHANNEL_ID =
-  process.env.DISCORD_FALLBACK_CHANNEL_ID || "";
+export const DISCORD_DEFAULT_CHANNEL_ID =
+  process.env.DISCORD_DEFAULT_CHANNEL_ID || "";
 
 // TELEGRAM
 export const ENABLE_TELEGRAM = process.env.ENABLE_TELEGRAM === "true";
 export const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN || "";
-export const TELEGRAM_FALLBACK_CHANNEL_ID =
-  process.env.TELEGRAM_FALLBACK_CHANNEL_ID || "";
+export const TELEGRAM_DEFAULT_CHANNEL_ID =
+  process.env.TELEGRAM_DEFAULT_CHANNEL_ID || "";
 
 // TWITTER
 export const ENABLE_TWITTER = process.env.ENABLE_TWITTER === "true";
