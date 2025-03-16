@@ -17,7 +17,7 @@ export class AnotherWalletHandler implements IEventHandler {
 
       // Another custom logic, maybe just log and tweet
       const shortMsg = `Address used: ${tx.from} => ${tx.to}, Hash: ${tx.hash}`;
-      if (this.clients.telegramClient) {
+      if (this.clients.twitterClient) {
         try {
           await this.clients.twitterClient.sendTweet(shortMsg);
           Logger.info("[Twitter] Posted about wallet transaction.");
