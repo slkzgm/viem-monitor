@@ -76,9 +76,6 @@ export class WatcherManager {
             (tx) => typeof tx !== "string",
           );
           if (fullTxs.length > 0) {
-            logger.info(
-              `[${name}] Block #${block.number} => found ${fullTxs.length} transaction(s).`,
-            );
             await handler.handleEvent(fullTxs);
           }
         },

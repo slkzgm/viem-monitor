@@ -31,7 +31,7 @@ const MONITORED_WALLETS: SingleWalletDefinition[] = [
   },
   {
     label: "Shared Guild Vault",
-    address: "0xABCDEFabcdef0000111122223333444455556666",
+    address: "0x700d7b774f5af65d26e5b9ae969ca9611ff80f6d",
     direction: "both" as const,
     createHandler: (clients: OptionalClientsManager) =>
       new AnotherWalletHandler(clients),

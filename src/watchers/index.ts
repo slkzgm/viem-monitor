@@ -3,14 +3,12 @@
 /**
  * Automatically collects all watchers from this directory,
  * merging them into a single array called ALL_WATCHERS.
- *
- * We rely on __dirname and require(...) in a CommonJS environment.
  */
 
 import fs from "fs";
 import path from "path";
-import { IWatcherConfig } from "../types";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
+import { IWatcherConfig } from "../types";
 
 interface IWatcherDefinition {
   config: IWatcherConfig;
@@ -22,18 +20,21 @@ const watchers: IWatcherDefinition[] = [];
 
 const files = fs.readdirSync(watchersDir);
 for (const file of files) {
+  // Skip these files (both .ts and .js variants)
   if (
-    file === "index.ts" ||
-    file === "client.ts" ||
-    file === "watcherManager.ts" ||
-    !file.endsWith(".ts")
+    file.startsWith("index.") ||
+    file.startsWith("client.") ||
+    file.startsWith("watcherManager.")
   ) {
+    continue;
+  }
+  // Accept files ending with .ts or .js
+  if (!file.endsWith(".ts") && !file.endsWith(".js")) {
     continue;
   }
 
   const fullPath = path.join(watchersDir, file);
   const module = require(fullPath);
-
   if (module.WATCHERS && Array.isArray(module.WATCHERS)) {
     watchers.push(...module.WATCHERS);
   }
