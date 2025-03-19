@@ -8,21 +8,25 @@
 import { OptionalClientsManager } from "./clients/optionalClientsManager";
 
 /**
- * An interface for event handlers.
- * The `handleEvent` method receives an array of logs from viem.
+ * A universal interface for watchers to call specialized methods:
+ * - onTransactions: invoked for block-based raw transactions
+ * - onERC20Transfer: invoked for "Transfer(address,address,uint256)" logs
+ * - onERC721Transfer: invoked for "Transfer(address,address,uint256 tokenId)" logs
+ * - onERC1155TransferSingle / onERC1155TransferBatch: invoked for ERC1155
+ *
+ * Each method is optional, so a handler can implement only those it needs.
  */
-export interface IEventHandler {
-  handleEvent(logs: any[]): Promise<void>;
+export interface IUniversalHandler {
+  onTransactions?(txs: any[]): Promise<void>;
+
+  onERC20Transfer?(logs: any[]): Promise<void>;
+  onERC721Transfer?(logs: any[]): Promise<void>;
+  onERC1155TransferSingle?(logs: any[]): Promise<void>;
+  onERC1155TransferBatch?(logs: any[]): Promise<void>;
 }
 
 /**
- * Basic configuration for a watcher:
- * - name: Unique identifier for the watcher
- * - address: The contract address to listen on
- * - abi: If specified, will be used for watchContractEvent
- * - eventName: The event name on the ABI
- * - args: Optional indexed arguments for further filtering
- * - fromBlock: Optional starting block number
+ * Basic config for a watcher.
  */
 export interface IWatcherConfig {
   name: string;
@@ -35,11 +39,9 @@ export interface IWatcherConfig {
 
 /**
  * A structure combining a watcher config with a factory that
- * creates the event handler instance. This is useful when you want
- * to dynamically create watchers (and their handlers) in an aggregator.
+ * creates the event handler instance (IUniversalHandler).
  */
 export interface IWatcherDefinition {
   config: IWatcherConfig;
-  // The OptionalClientsManager is passed so you can post to Discord/Telegram/Twitter, etc.
-  createHandler: (clients: OptionalClientsManager) => IEventHandler;
+  createHandler: (clients: OptionalClientsManager) => IUniversalHandler;
 }

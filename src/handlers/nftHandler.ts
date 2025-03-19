@@ -1,11 +1,10 @@
 // src/handlers/nftHandler.ts
 
 /**
- * This handler listens for Transfer(address from, address to, uint256 tokenId)
- * events on a specific NFT contract. It can post to Discord, Telegram, Twitter, etc.
+ * Handler for NFT Transfer events (ERC-721).
  */
 
-import { IEventHandler } from "../types";
+import { IUniversalHandler } from "../types";
 import { createPrefixedLogger } from "../logger/logger";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 import {
@@ -13,19 +12,19 @@ import {
   TELEGRAM_DEFAULT_CHANNEL_ID,
 } from "../config";
 
-export class NftHandler implements IEventHandler {
+export class NftHandler implements IUniversalHandler {
   private log = createPrefixedLogger("NFT_Handler");
 
   constructor(private optionalClients: OptionalClientsManager) {}
 
-  public async handleEvent(logs: any[]): Promise<void> {
+  public async onERC721Transfer(logs: any[]): Promise<void> {
     for (const log of logs) {
       const from = log.args?.from;
       const to = log.args?.to;
-      const tokenId = log.args?.tokenId;
+      const tokenId = log.args?.tokenId?.toString() || "?";
 
       this.log.info(
-        `Handling NFT Transfer => from: ${from}, to: ${to}, tokenId: ${tokenId}`,
+        `NFT Transfer => from: ${from}, to: ${to}, tokenId: ${tokenId}`,
       );
 
       const message = `NFT Transfer:
@@ -34,7 +33,7 @@ export class NftHandler implements IEventHandler {
 - To: ${to}
 - TokenId: ${tokenId}`;
 
-      // Discord
+      // Example broadcast
       if (this.optionalClients.discordClient) {
         try {
           await this.optionalClients.discordClient.channels.cache
@@ -46,7 +45,6 @@ export class NftHandler implements IEventHandler {
         }
       }
 
-      // Telegram
       if (this.optionalClients.telegramClient) {
         try {
           await this.optionalClients.telegramClient.sendMessage(
@@ -59,7 +57,6 @@ export class NftHandler implements IEventHandler {
         }
       }
 
-      // Twitter
       if (this.optionalClients.twitterClient) {
         try {
           await this.optionalClients.twitterClient.sendTweet(

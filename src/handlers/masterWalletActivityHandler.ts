@@ -1,28 +1,26 @@
 // src/handlers/masterWalletActivityHandler.ts
 
 /**
- * The "MasterWalletActivityHandler" receives block transactions,
- * then routes each tx to the correct wallet-level handler based on from/to address.
+ * The "MasterWalletActivityHandler" receives block transactions
+ * (not logs) from watchBlocks.
+ * We implement onTransactions(...) from IUniversalHandler.
  */
 
-import { IEventHandler } from "../types";
+import { IUniversalHandler } from "../types";
 import { createPrefixedLogger } from "../logger/logger";
 import { OptionalClientsManager } from "../clients/optionalClientsManager";
 
-/**
- * singleWalletDefinition includes a label, address, direction, etc.
- */
 export interface SingleWalletDefinition {
   label: string;
   address: string;
   direction: "from" | "to" | "both";
-  createHandler: (clients: OptionalClientsManager) => IEventHandler;
+  createHandler: (clients: OptionalClientsManager) => IUniversalHandler;
 }
 
-export class MasterWalletActivityHandler implements IEventHandler {
+export class MasterWalletActivityHandler implements IUniversalHandler {
   private log = createPrefixedLogger("MasterWalletActivityHandler");
 
-  private walletHandlers: Record<string, IEventHandler> = {};
+  private walletHandlers: Record<string, IUniversalHandler> = {};
   private walletLabels: Record<string, string> = {};
 
   constructor(
@@ -37,18 +35,21 @@ export class MasterWalletActivityHandler implements IEventHandler {
   }
 
   /**
-   * handleEvent(txs): We get an array of transactions from watchBlocks in watcherManager.
+   * Watcher calls onTransactions(...) with an array of block-based transactions.
    */
-  public async handleEvent(txs: any[]): Promise<void> {
+  public async onTransactions(txs: any[]): Promise<void> {
     for (const tx of txs) {
       const fromAddr = (tx.from || "").toLowerCase();
       const toAddr = (tx.to || "").toLowerCase();
 
+      // Find which wallet matches
       for (const wKey in this.walletHandlers) {
         const walletLabel = this.walletLabels[wKey] || "Unknown";
         if (fromAddr === wKey || toAddr === wKey) {
           this.log.info(`Matched wallet: ${walletLabel}, Tx hash: ${tx.hash}`);
-          await this.walletHandlers[wKey].handleEvent([tx]);
+          // Send the transaction to that sub-handler's onTransactions(...) or onERC20Transfer, etc.
+          // But typically these sub-handlers also only implement onTransactions
+          await this.walletHandlers[wKey].onTransactions?.([tx]);
         }
       }
     }
