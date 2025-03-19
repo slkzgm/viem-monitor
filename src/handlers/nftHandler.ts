@@ -34,21 +34,21 @@ export class NftHandler implements IUniversalHandler {
 - TokenId: ${tokenId}`;
 
       // Example broadcast
-      if (this.optionalClients.discordClient) {
-        try {
-          await this.optionalClients.discordClient.channels.cache
-            .get(DISCORD_DEFAULT_CHANNEL_ID)
-            .send(message);
-          this.log.info("Posted NFT Transfer on Discord.");
-        } catch (err: any) {
-          this.log.error(`Discord error: ${err.message}`);
-        }
-      }
+      // if (this.optionalClients.discordClient) {
+      //   try {
+      //     await this.optionalClients.discordClient.channels.cache
+      //       .get(DISCORD_DEFAULT_CHANNEL_ID)
+      //       .send(message);
+      //     this.log.info("Posted NFT Transfer on Discord.");
+      //   } catch (err: any) {
+      //     this.log.error(`Discord error: ${err.message}`);
+      //   }
+      // }
 
       if (this.optionalClients.telegramClient) {
         try {
           await this.optionalClients.telegramClient.sendMessage(
-            TELEGRAM_DEFAULT_CHANNEL_ID,
+            "-4743892680",
             message,
           );
           this.log.info("Posted NFT Transfer on Telegram.");
@@ -57,16 +57,16 @@ export class NftHandler implements IUniversalHandler {
         }
       }
 
-      if (this.optionalClients.twitterClient) {
-        try {
-          await this.optionalClients.twitterClient.sendTweet(
-            `New NFT Transfer: Token #${tokenId} from ${from.slice(0, 6)}... to ${to.slice(0, 6)}...`,
-          );
-          this.log.info("Tweeted about NFT Transfer.");
-        } catch (err: any) {
-          this.log.error(`Twitter error: ${err.message}`);
-        }
-      }
+      // if (this.optionalClients.twitterClient) {
+      //   try {
+      //     await this.optionalClients.twitterClient.sendTweet(
+      //       `New NFT Transfer: Token #${tokenId} from ${from.slice(0, 6)}... to ${to.slice(0, 6)}...`,
+      //     );
+      //     this.log.info("Tweeted about NFT Transfer.");
+      //   } catch (err: any) {
+      //     this.log.error(`Twitter error: ${err.message}`);
+      //   }
+      // }
     }
   }
 }

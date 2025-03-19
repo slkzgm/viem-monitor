@@ -11,23 +11,23 @@ import {
   MasterWalletActivityHandler,
   SingleWalletDefinition,
 } from "../handlers/masterWalletActivityHandler";
-import { MySpecialWalletHandler } from "../handlers/mySpecialWalletHandler";
-import { AnotherWalletHandler } from "../handlers/anotherWalletHandler";
+import { OchDeployerWalletHandler } from "../handlers/ochDeployerWalletHandler";
+import { AgwWalletHandler } from "../handlers/agwWalletHandler";
 
 export const MONITORED_WALLETS: SingleWalletDefinition[] = [
   {
-    label: "Dev Main Wallet",
+    label: "OCH Deployer",
     address: "0x1B2C84dd7957b1e207Cd7b01Ded77984eC16fDEf",
     direction: "from",
     createHandler: (clients: OptionalClientsManager) =>
-      new MySpecialWalletHandler(clients),
+      new OchDeployerWalletHandler(clients),
   },
   {
-    label: "Shared Guild Vault",
+    label: "AGW Wallet",
     address: "0x700d7b774f5af65d26e5b9ae969ca9611ff80f6d",
     direction: "both",
     createHandler: (clients: OptionalClientsManager) =>
-      new AnotherWalletHandler(clients),
+      new AgwWalletHandler(clients),
   },
 ];
 
