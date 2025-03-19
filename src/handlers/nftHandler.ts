@@ -48,7 +48,7 @@ export class NftHandler implements IUniversalHandler {
       if (this.optionalClients.telegramClient) {
         try {
           await this.optionalClients.telegramClient.sendMessage(
-            "-4743892680",
+            "-1002551047399",
             message,
           );
           this.log.info("Posted NFT Transfer on Telegram.");
