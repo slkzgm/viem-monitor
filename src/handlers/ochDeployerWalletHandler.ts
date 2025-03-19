@@ -25,7 +25,7 @@ export class OchDeployerWalletHandler implements IUniversalHandler {
       if (this.clients.telegramClient) {
         try {
           await this.clients.telegramClient.sendMessage(
-            TELEGRAM_DEFAULT_CHANNEL_ID,
+            '-4627879078',
             message,
           );
         } catch (err: any) {
