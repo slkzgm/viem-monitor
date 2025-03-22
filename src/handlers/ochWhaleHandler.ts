@@ -1,4 +1,4 @@
-// src/handlers/anotherWalletHandler.ts
+// src/handlers/ochWhaleHandler.ts
 
 /**
  * Another specialized handler that might handle both transactions and token transfers.
@@ -11,8 +11,8 @@ import { getTokenMetadataCached } from "../services/tokenMetadataCache";
 import { TELEGRAM_DEFAULT_CHANNEL_ID } from "../config";
 import { formatUnits } from "viem";
 
-export class AgwWalletHandler implements IUniversalHandler {
-  private log = createPrefixedLogger("AGWWalletHandler");
+export class OchWhaleHandler implements IUniversalHandler {
+  private log = createPrefixedLogger("OCHWhale");
 
   constructor(private clients: OptionalClientsManager) {}
 
@@ -21,14 +21,11 @@ export class AgwWalletHandler implements IUniversalHandler {
     for (const tx of txs) {
       this.log.info(`Handling tx hash: ${tx.hash}`);
 
-      const message = `AGW wallet new transaction: https://abscan.org/tx/${tx.hash}`;
+      const message = `0xe33 new transaction: https://abscan.org/tx/${tx.hash}`;
 
       if (this.clients.telegramClient) {
         try {
-          await this.clients.telegramClient.sendMessage(
-            TELEGRAM_DEFAULT_CHANNEL_ID,
-            message,
-          );
+          await this.clients.telegramClient.sendMessage("-4702012128", message);
         } catch (err: any) {
           this.log.error(`Error sending telegram message: ${err.message}`);
         }
@@ -48,21 +45,18 @@ export class AgwWalletHandler implements IUniversalHandler {
 
       const receiver =
         from.toLowerCase() !==
-        "0x700d7b774f5AF65D26E5b9Ae969cA9611ff80f6D".toLowerCase();
+        "0xe33a8c196ba14bc078dd21388e8c04650b81d1de".toLowerCase();
       const parsedValue = formatUnits(BigInt(value), metadata.decimals ?? 18);
 
       this.log.info(
         `ERC20 Transfer => ${metadata.symbol || "???"} from: ${from}, to: ${to}, value: ${value}`,
       );
 
-      const message = `AGW wallet ${receiver ? "received" : "sent"} ${parsedValue} $${metadata.symbol} ${receiver ? `from ${from}` : `to ${to}`}`;
+      const message = `0xe33 wallet ${receiver ? "received" : "sent"} ${parsedValue} $${metadata.symbol} ${receiver ? `from ${from}` : `to ${to}`}`;
 
       if (this.clients.telegramClient) {
         try {
-          await this.clients.telegramClient.sendMessage(
-            TELEGRAM_DEFAULT_CHANNEL_ID,
-            message,
-          );
+          await this.clients.telegramClient.sendMessage("-4702012128", message);
         } catch (err: any) {
           this.log.error(`Error sending telegram message: ${err.message}`);
         }
@@ -85,15 +79,12 @@ export class AgwWalletHandler implements IUniversalHandler {
 
       const receiver =
         from.toLowerCase() !==
-        "0x700d7b774f5AF65D26E5b9Ae969cA9611ff80f6D".toLowerCase();
-      const message = `AGW wallet ${receiver ? "received" : "sent"} ${metadata.symbol} #${value} ${receiver ? `from ${from}` : `to ${to}`}`;
+        "0xe33a8c196ba14bc078dd21388e8c04650b81d1de".toLowerCase();
+      const message = `0xe33 wallet ${receiver ? "received" : "sent"} ${metadata.symbol} #${value} ${receiver ? `from ${from}` : `to ${to}`}`;
 
       if (this.clients.telegramClient) {
         try {
-          await this.clients.telegramClient.sendMessage(
-            TELEGRAM_DEFAULT_CHANNEL_ID,
-            message,
-          );
+          await this.clients.telegramClient.sendMessage("-4702012128", message);
         } catch (err: any) {
           this.log.error(`Error sending telegram message: ${err.message}`);
         }

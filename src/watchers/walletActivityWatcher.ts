@@ -13,6 +13,7 @@ import {
 } from "../handlers/masterWalletActivityHandler";
 import { OchDeployerWalletHandler } from "../handlers/ochDeployerWalletHandler";
 import { AgwWalletHandler } from "../handlers/agwWalletHandler";
+import { OchWhaleHandler } from "../handlers/ochWhaleHandler";
 
 export const MONITORED_WALLETS: SingleWalletDefinition[] = [
   {
@@ -28,6 +29,13 @@ export const MONITORED_WALLETS: SingleWalletDefinition[] = [
     direction: "both",
     createHandler: (clients: OptionalClientsManager) =>
       new AgwWalletHandler(clients),
+  },
+  {
+    label: "Mysterious Whale",
+    address: "0xe33a8c196ba14bc078dd21388e8c04650b81d1de",
+    direction: "both",
+    createHandler: (clients: OptionalClientsManager) =>
+      new OchWhaleHandler(clients),
   },
 ];
 

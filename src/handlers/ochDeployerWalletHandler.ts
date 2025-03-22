@@ -25,7 +25,7 @@ export class OchDeployerWalletHandler implements IUniversalHandler {
       if (this.clients.telegramClient) {
         try {
           await this.clients.telegramClient.sendMessage(
-            '-1002696813104',
+            "-1002696813104",
             message,
           );
         } catch (err: any) {
